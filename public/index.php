@@ -21,7 +21,7 @@ $debug = (bool) ($_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? ('prod' !== $env
 if ($debug) {
     umask(0000);
 
-    Debug::enable();
+    Debug::enable(); 
 }
 
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
