@@ -6,8 +6,8 @@
 	<div class="col-lg-12 row">
 		<h2>ADD USER</h2>
 	</div>
-	<div class="col-lg-4 bg-info" style="height:150px">					
-		{{msg}}
+	<div class="col-lg-4 bg-info" style="height:150px">
+		{{msg}} {# if there is no variable names msg, an error will be thrown, but as mentioned, check out Flashes #}
 		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_errors(form) }}
 			<div class="row" style="margin 40px 0 0 0">

@@ -6,19 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<title>{% block title %}Test Application{% endblock %}</title>
+		{% block stylesheets %}
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-		
-		<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		
+
 		<link rel="stylesheet" href="css/style.css">
-		
+		{% endblock %}
+
     </head>
     <body>
 		<div id="wrapper">
@@ -47,9 +43,20 @@
 				</div>
 
 				<div class="col-lg-10" id="content" style="margin:10px 0 0 0" >
+                    {% for type, messages in app.flashes %}
+                        {% for message in messages %}
+							<div class="alert alert-{{ type }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endfor %}{# I try to put this somewhere in a lower template so it doesn't need to show in every twig with messages #}
 					{% block body %}{% endblock %}
 				</div>
 			</div>
-		</div>	
+		</div>
+	{% block javascripts %}{# Make a seperate block for javascripts to load at the end of the page so the rest of the page loads and is displayed if there is some javascript that must run first #}
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>{# jquery must be init before Bootstrap #}
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    {% endblock %}
     </body>
 </html>

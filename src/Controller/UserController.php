@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,8 +35,9 @@ class UserController extends AbstractController
         $form = $this->createFormBuilder($user)
             ->add('firstName', TextType::class, array('label' => 'First Name'))
 			->add('lastName', TextType::class, array('label' => 'Last Name'))
-            ->add('save', SubmitType::class, array('label' => 'Create User'))
+            ->add('save', SubmitType::class, array('label' => 'Create User')) // I usually code this into where the form is rendered so it can be translated correctly
             ->getForm();
+	    // Does same now $form = $this->createForm(UserType::class, $user);
 		
 			$form->handleRequest($request);
 		  
@@ -50,10 +52,11 @@ class UserController extends AbstractController
 				 $entityManager = $this->getDoctrine()->getManager();
 				 $entityManager->persist($user);
 				 $entityManager->flush();
-				
+
+				$this->addFlash('success', 'User successfully added!'); // this "bag" holds messages of types until they are read. Usually on the next page render.
 				return $this->redirectToRoute('show_user');
 				
-				$msg = 'User successfully added';
+				$msg = 'User successfully added'; // This never happens, but there is a better way of sending messages through sessions, called flashes. See above.
 			}
 	
         return $this->render('user/adduser.html.twig', array(
@@ -68,6 +71,7 @@ class UserController extends AbstractController
      */
 	public function edituser(Request $request,$id = 1)
 	{
+		$msg = ''; // Must init $msg if it will be sent in all cases.
 		$entityManager = $this->getDoctrine()->getManager();
 		$user = $entityManager->getRepository(User::class)->find($id);
 		
@@ -81,7 +85,8 @@ class UserController extends AbstractController
 			->add('lastName', TextType::class, array('label' => 'Last Name'))
             ->add('save', SubmitType::class, array('label' => 'Create User'))
             ->getForm();
-			
+		// Does same now $form = $this->createForm(UserType::class, $user);
+
 			$form->handleRequest($request);
 			if ($form->isSubmitted() && $form->isValid())
 			{
@@ -121,12 +126,14 @@ class UserController extends AbstractController
 	{
 		$entityManager = $this->getDoctrine()->getManager();
 		$user = $entityManager->getRepository(User::class)->find($id);
-		
+
+		// Confirm $user exists for some error handling. You can even handle this with a simple RESTful DELETE method
+		// with csrf protection. To see how, I recommend running 'php bin/console make:crud' on your Task entity to see the generated code.
 		$entityManager = $this->getDoctrine()->getManager();
 		$entityManager->remove($user);
 		$entityManager->flush();
 				 
-		return $this->redirectToRoute('show_user', ['id' => $user->getId()]);
+		return $this->redirectToRoute('show_user', ['id' => $user->getId()]); // Show user does not expect a parameter for ID. Plus, That user was removed.
 	}	
 	
 	
@@ -141,6 +148,7 @@ class UserController extends AbstractController
 			->findAll();
 
 		if (!$users) {
+			return $this->redirectToRoute('add_user'); // perhaps better to redirect if none exist.
 			throw $this->createNotFoundException(
 				'No user found'
 			);
