@@ -1,0 +1,42 @@
+{# templates/user/adduser.html.twig #}
+
+
+{% extends 'base.html.twig' %}
+{% block body %} 
+	<div class="col-lg-12 row">
+		<h2>ADD USER</h2>
+	</div>
+	<div class="col-lg-4 bg-info" style="height:150px">					
+		{{msg}}
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+			{{ form_errors(form) }}
+			<div class="row" style="margin 40px 0 0 0">
+			<div class="col-lg-6">
+				{{ form_label(form.firstName, 'First Name') }}
+				{{ form_errors(form.firstName) }}
+			</div>	
+			<div class="col-lg-6">	
+				{{ form_widget(form.firstName, {'attr': {'class': 'task_field'}}) }}
+				{{ form_help(form.firstName) }}
+			</div>
+			
+			<div class="col-lg-6">
+				{{ form_label(form.lastName, 'Last Name') }}
+				{{ form_errors(form.lastName) }}
+			</div>	
+			<div class="col-lg-6">
+				{{ form_widget(form.lastName, {'attr': {'class': 'task_field'}}) }}
+				{{ form_help(form.lastName) }}
+			</div>
+
+
+			<div class="col-lg-12 text-center">
+				{{ form_widget(form.save, {'label': 'Add User'}) }}
+			</div>
+			</div>
+			
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+
+

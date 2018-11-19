@@ -1,0 +1,32 @@
+{# templates/user/edituser.html.twig #}
+
+{% extends 'base.html.twig' %}
+{% block body %} 
+<div class="col-lg-12 row">
+		<h2>EDIT USER</h2>
+	</div>
+	<div class="col-lg-8 bg-info">		
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_errors(form) }}
+
+    <div class="col-lg-6">
+        {{ form_label(form.firstName, 'First Name') }}
+        {{ form_errors(form.firstName) }}
+        {{ form_widget(form.firstName, {'attr': {'class': 'task_field'}}) }}
+        {{ form_help(form.firstName) }}
+    </div>
+	
+	<div class="col-lg-6">
+        {{ form_label(form.lastName, 'Last Name') }}
+        {{ form_errors(form.lastName) }}
+        {{ form_widget(form.lastName, {'attr': {'class': 'task_field'}}) }}
+        {{ form_help(form.lastName) }}
+    </div>
+
+
+    <div class="col-lg-6">
+        {{ form_widget(form.save , { 'label': 'Edit User' }) }}
+    </div>
+	</div>
+{{ form_end(form) }}
+{% endblock %}

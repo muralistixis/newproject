@@ -1,0 +1,21 @@
+{# templates/user/showuser.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %} 
+<div class="col-lg-12 row">
+						<h2>USER LIST</h2>
+					</div>
+	<div class="container " style="margin: 50px 0 0 0">
+			<div class="row ">
+				<div class="col-lg-4 bg-success">First Name</div>
+				<div class="col-lg-4 bg-success">Last Name</div>
+				<div class="col-lg-2 bg-success">Action</div>
+				<div class="col-lg-2 bg-success">Action</div>
+			{% for user in users %}
+				   <div class="col-lg-4">{{user.firstname}}</div>
+				   <div class="col-lg-4">{{user.lastname}}</div>
+				   <div class="col-lg-2"><a href="edituser/{{user.id}}"> Edit </a></div>
+				   <div class="col-lg-2"><a href="deleteuser/{{user.id}}"> Delete </a></div>
+			{% endfor %}  
+			</div> 
+	</div>
+{% endblock %}
